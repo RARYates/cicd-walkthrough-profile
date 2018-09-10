@@ -1,0 +1,36 @@
+---
+driver:
+  name: docker
+  privileged: true
+  use_sudo: false
+  run_command: /usr/sbin/init
+
+provisioner:
+  name: puppet_apply
+  # Not installing chef since inspec is used for testing
+  require_chef_for_busser: false
+  manifests_path: test
+  modules_path: test/modules
+
+verifier:
+  name: inspec
+
+platforms:
+- name: centos
+  driver_config:
+    image: centos/systemd
+    platform: centos
+    run_command: /usr/sbin/init
+    privileged: true
+    provision_command:
+      - yum install -y initscripts
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
+
+suites:
+  - name: default
+    provisioner:
+      manifest: jenkins.pp
+    lifecycle:
+      pre_verify:
+      - sleep 30

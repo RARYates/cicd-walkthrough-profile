@@ -9,8 +9,9 @@ describe 'profile::jenkins' do
                      else
                        { systemd: true }
                      end
+      root_home = { root_home: '/root' }
       let :facts do
-        os_facts.merge(systemd_fact)
+        os_facts.merge(**systemd_fact, **root_home)
       end
 
       ####  NEW CODE  ####
