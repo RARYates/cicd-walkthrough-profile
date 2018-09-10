@@ -3,7 +3,7 @@ class profile::jenkins {
 
   class {'jenkins': lts => true }
 
-#  package {'git': ensure => latest }
+  package {'git': ensure => latest }
 
   file {'/tmp/pdk.rpm':
     ensure => file,
