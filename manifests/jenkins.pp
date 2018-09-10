@@ -1,3 +1,4 @@
+# Jenkins Profile
 class profile::jenkins {
 
   class { 'jenkins': lts => true }
@@ -11,8 +12,8 @@ class profile::jenkins {
 
 # Install latest PDK directly from Puppet Source
   package {'pdk':
-    ensure => installed,
-    source => '/tmp/pdk.rpm',
+    ensure  => installed,
+    source  => '/tmp/pdk.rpm',
     require => File['/tmp/pdk.rpm'],
   }
 
